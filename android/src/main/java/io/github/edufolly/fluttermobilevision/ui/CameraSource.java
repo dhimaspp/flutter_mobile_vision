@@ -1138,10 +1138,18 @@ public class CameraSource {
          * has completed, which is managed in camera source's release method above.
          */
         @SuppressLint("Assert")
+        // private void release() {
+        //     assert (processingThread.getState() == State.TERMINATED);
+        //     mDetector.release();
+        //     mDetector = null;
+        // }
+
         private void release() {
-            assert (processingThread.getState() == State.TERMINATED);
-            mDetector.release();
-            mDetector = null;
+            assert (mProcessingThread == null || mProcessingThread.getState() == State.TERMINATED);
+            if (mDetector != null) {
+                mDetector.release();
+                mDetector = null;
+            }
         }
 
         /**
